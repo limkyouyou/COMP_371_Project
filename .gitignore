@@ -1,0 +1,28 @@
+# CMake
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+# Visual Studio
+*.vcxproj*
+*.sln
+*.user
+*.log
+.vs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Executables
+*.exe
+*.obj
+*.lib
+*.dll
+*.pdb
+
+# External binaries (optional)
+external/glew*/lib/
+external/glfw*/lib/
