@@ -6,14 +6,48 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
+<<<<<<< HEAD
 add_executable(OpenGLProject ${SOURCES})
 
+=======
+
+# Assimp (build from source)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+set(ASSIMP_BUILD_TESTS OFF)
+set(ASSIMP_INJECT_DEBUG_POSTFIX OFF)
+set(ASSIMP_BUILD_ZLIB ON CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+
+add_subdirectory(external/assimp)
+
+# Force console window on Windows
+if(WIN32)
+    set(CMAKE_WIN32_EXECUTABLE OFF)
+    message(STATUS "CMAKE_WIN32_EXECUTABLE is ${CMAKE_WIN32_EXECUTABLE}")
+endif()
+
+add_executable(OpenGLProject ${SOURCES})
+
+if (WIN32)
+    add_custom_command(TARGET OpenGLProject POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_BINARY_DIR}/external/assimp/bin/Debug/assimp-vc143-mt.dll"
+            $<TARGET_FILE_DIR:OpenGLProject>)
+endif()
+
+>>>>>>> kyo
 # Shared headers for both platforms
 target_include_directories(OpenGLProject PRIVATE
     ${CMAKE_SOURCE_DIR}/external/glm
     ${CMAKE_SOURCE_DIR}/external/stb
     ${CMAKE_SOURCE_DIR}/external/glew/include
     ${CMAKE_SOURCE_DIR}/external/glfw/include
+<<<<<<< HEAD
+=======
+    ${CMAKE_SOURCE_DIR}/external/assimp/include
+    ${CMAKE_CURRENT_BINARY_DIR}/external/assimp/include
+    ${CMAKE_SOURCE_DIR}/headers
+>>>>>>> kyo
 )
 
 # Platform-specific linking
@@ -28,6 +62,10 @@ if(WIN32)
         "${GLEW_LIB_DIR}/glew32s.lib"
         "${GLFW_LIB_DIR}/glfw3.lib"
         OpenGL::GL
+<<<<<<< HEAD
+=======
+        assimp
+>>>>>>> kyo
     ) 
 
 elseif(APPLE)
@@ -40,5 +78,9 @@ elseif(APPLE)
         GLEW::GLEW
         glfw
         glm
+<<<<<<< HEAD
+=======
+        assimp
+>>>>>>> kyo
     )
 endif()

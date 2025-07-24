@@ -1,5 +1,10 @@
 # CMake
 /build/
+out/
+*.ilk
+*.pdb
+*.exe
+*.dll
 /CMakeFiles/
 /CMakeCache.txt
 Makefile

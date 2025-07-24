@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // COMP 371 Labs Framework
 //
@@ -468,3 +469,15 @@ int main(int argc, char* argv[])
 
     return 0;
 }
+=======
+#include <app.h>
+#include <iostream>
+
+int main() {
+	std::cout << "Starting application...\n";
+
+	App app;
+
+	return app.run();
+}
+>>>>>>> kyo
