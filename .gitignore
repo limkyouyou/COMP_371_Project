@@ -1,3 +1,7 @@
+# Ninja build system logs
+*.ninja_log
+*.ninja_deps
+
 # CMake
 /build/
 out/

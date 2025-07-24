@@ -1,7 +1,0 @@
-# ninja log v6
-14	223	7744779184643552	CMakeFiles/OpenGLProject.dir/src/stb_image_implementation.cpp.obj	fb8d5c4a962e8675
-4	399	7744779422388302	CMakeFiles/OpenGLProject.dir/src/main.cpp.obj	e035aa182371145b
-399	536	7744779426340881	OpenGLProject.exe	75004280e9ed2e34
-3	12	7744779184350730	clean	8c45b54705a541e8
-24	630	7744780878504062	CMakeFiles/OpenGLProject.dir/src/main.cpp.obj	e035aa182371145b
-632	833	7744780884593758	OpenGLProject.exe	75004280e9ed2e34
