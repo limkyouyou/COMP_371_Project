@@ -6,10 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-<<<<<<< HEAD
-add_executable(OpenGLProject ${SOURCES})
-
-=======
 
 # Assimp (build from source)
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
@@ -35,19 +31,15 @@ if (WIN32)
             $<TARGET_FILE_DIR:OpenGLProject>)
 endif()
 
->>>>>>> kyo
 # Shared headers for both platforms
 target_include_directories(OpenGLProject PRIVATE
     ${CMAKE_SOURCE_DIR}/external/glm
     ${CMAKE_SOURCE_DIR}/external/stb
     ${CMAKE_SOURCE_DIR}/external/glew/include
     ${CMAKE_SOURCE_DIR}/external/glfw/include
-<<<<<<< HEAD
-=======
     ${CMAKE_SOURCE_DIR}/external/assimp/include
     ${CMAKE_CURRENT_BINARY_DIR}/external/assimp/include
     ${CMAKE_SOURCE_DIR}/headers
->>>>>>> kyo
 )
 
 # Platform-specific linking
@@ -62,10 +54,7 @@ if(WIN32)
         "${GLEW_LIB_DIR}/glew32s.lib"
         "${GLFW_LIB_DIR}/glfw3.lib"
         OpenGL::GL
-<<<<<<< HEAD
-=======
         assimp
->>>>>>> kyo
     ) 
 
 elseif(APPLE)
@@ -78,9 +67,6 @@ elseif(APPLE)
         GLEW::GLEW
         glfw
         glm
-<<<<<<< HEAD
-=======
         assimp
->>>>>>> kyo
     )
 endif()
