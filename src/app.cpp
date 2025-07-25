@@ -1,7 +1,7 @@
 #include <app.h>
 
 App::App()
-	: camera(glm::vec3(0.0f, 10.0f, 50.0f))
+	: camera(glm::vec3(0.0f, 5.0f, 10.0f))
 {
 }
 
@@ -54,7 +54,20 @@ int App::run() {
 	// Load models
 	Model carModel("resources/objects/car/sportcar.017.obj");
 	// Model roadModel("resources/objects/road/Untitled.obj");
-	Model roadModel("resources/objects/road/scene.obj");
+	Model roadModel("resources/objects/road/scene4.obj");
+	Model blimp_1("resources/objects/blimp_1/Aircraft.obj");
+	Model blimp_2("resources/objects/blimp_1/Aircraft.obj");
+
+	// Set initial position
+	carModel.scale = vec3(0.05f, 0.05f, 0.05f);
+	carModel.position = vec3(1.0f, 0.3f, 0.0f);
+
+	roadModel.position = vec3(-9.0f, 0.0f, -9.0f); // Manually move the object origin to world origin (object origin is offset)
+
+	blimp_1.position = vec3(1.0f, 1.5f, 0.0f);
+	blimp_1.rotation.y = 180.0f;
+	blimp_2.position = vec3(-1.0f, 1.5f, 0.0f);
+	
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -84,13 +97,15 @@ int App::run() {
 		shader.setMat4("view", view);
 
 		// render the loaded model
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));	// translate it so it's at the center of the scene.
-		// model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));		// scale it so that it fits the window size.
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		shader.setMat4("model", model);
+		//glm::mat4 model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));	// translate it so it's at the center of the scene.
+		//// model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));		// scale it so that it fits the window size.
+		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+		//shader.setMat4("model", model);
 		carModel.Draw(shader);
 		roadModel.Draw(shader);
+		blimp_1.Draw(shader);
+		blimp_2.Draw(shader);
 
 		// glfw: swap buffers and poll IO events
 		glfwSwapBuffers(window);

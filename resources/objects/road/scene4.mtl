@@ -1,4 +1,4 @@
-# Blender 4.4.3 MTL File: 'Untitled.blend'
+# Blender 4.4.3 MTL File: 'Untitled2.blend'
 # www.blender.org
 
 newmtl ACUnit
@@ -80,16 +80,6 @@ Ni 1.500000
 illum 2
 map_Kd Billboard2_baseColor.png
 map_d Billboard2_baseColor.png
-
-newmtl Blimp
-Ns 44.721355
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd Blimp_baseColor.png
 
 newmtl BoostPadMaterial
 Ns 44.721355
@@ -470,16 +460,6 @@ Ni 1.500000
 d 1.000000
 illum 2
 map_Kd SandDecal1_baseColor.png
-
-newmtl StadiumLight
-Ns 44.721355
-Ka 1.000000 1.000000 1.000000
-Ks 0.500000 0.500000 0.500000
-Ke 0.000000 0.000000 0.000000
-Ni 1.500000
-d 1.000000
-illum 2
-map_Kd StadiumLight_baseColor.png
 
 newmtl Tires
 Ns 44.721355

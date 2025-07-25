@@ -35,6 +35,8 @@ struct Texture {
 
 class Mesh {
 public:
+	string name;
+
 	// Mesh data
 	vector<Vertex> vertices;
 	vector<unsigned int> indices;
@@ -42,7 +44,8 @@ public:
 	unsigned int VAO;
 
 	// Constructor
-	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, const string& meshName)
+		: name(meshName)
 	{
 		this->vertices = vertices;
 		this->indices = indices;

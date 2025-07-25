@@ -33,6 +33,11 @@ public:
 	string directory;
 	bool gammaCorrection;
 
+	// Model Coordinates
+	glm::vec3 position = glm::vec3(0.0f);
+	glm::vec3 rotation = glm::vec3(0.0f);
+	glm::vec3 scale = glm::vec3(1.0f);
+
 	// Constructor, expects a filepath to a 3D model.
 	Model(string const& path, bool gamma = false)
 		: gammaCorrection(gamma)
@@ -42,6 +47,15 @@ public:
 
 	// Draw the model
 	void Draw(Shader& shader) {
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, position);
+		model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1, 0, 0));
+		model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0, 1, 0));
+		model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0, 0, 1));
+		model = glm::scale(model, scale);
+
+		shader.setMat4("model", model);
+
 		for (unsigned int i = 0; i < meshes.size(); i++) {
 			meshes[i].Draw(shader);
 		}
@@ -81,8 +95,11 @@ private:
 		for (unsigned int i = 0; i < node->mNumMeshes; i++) {
 			// The node object only contains indices to index the actual objects in the scene.
 			// The scene contains all the datam node is just to keep stuff organized (like relations between nodes).
+			// string meshName = node->mName.C_Str(); // name of the current node
+			
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			meshes.push_back(processMesh(mesh, scene));
+			string meshName = mesh->mName.C_Str();
+			meshes.push_back(processMesh(mesh, scene, meshName));
 		}
 		// After we've processed all the meshes (if any) we then recursively process each of the children nodes.
 		for (unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -90,7 +107,7 @@ private:
 		}
 	}
 
-	Mesh processMesh(aiMesh* mesh, const aiScene* scene) {
+	Mesh processMesh(aiMesh* mesh, const aiScene* scene, const string& meshName) {
 		// Data to fill
 		vector<Vertex> vertices;
 		vector<unsigned int> indices;
@@ -190,7 +207,7 @@ private:
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 		// Return a mesh object created from the extracted mesh data
-		return Mesh(vertices, indices, textures);
+		return Mesh(vertices, indices, textures, meshName);
 	}
 
 	// Check all material textures of a given type and load the texture if they'r re not loaded yet.
