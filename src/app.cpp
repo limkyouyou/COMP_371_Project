@@ -55,8 +55,8 @@ int App::run() {
 	Model carModel("resources/objects/car/sportcar.017.obj");
 	// Model roadModel("resources/objects/road/Untitled.obj");
 	Model roadModel("resources/objects/road/scene4.obj");
-	Model blimp_1("resources/objects/blimp_1/Aircraft.obj");
-	Model blimp_2("resources/objects/blimp_1/Aircraft.obj");
+	Blimp blimp_1("resources/objects/blimp_1/Aircraft.obj");
+	Blimp blimp_2("resources/objects/blimp_1/Aircraft.obj");
 
 	// Set initial position
 	carModel.scale = vec3(0.05f, 0.05f, 0.05f);
@@ -64,9 +64,7 @@ int App::run() {
 
 	roadModel.position = vec3(-9.0f, 0.0f, -9.0f); // Manually move the object origin to world origin (object origin is offset)
 
-	blimp_1.position = vec3(1.0f, 1.5f, 0.0f);
-	blimp_1.rotation.y = 180.0f;
-	blimp_2.position = vec3(-1.0f, 1.5f, 0.0f);
+	blimp_2.angle = pi<float>();	// Make blimp_2 face the opposite direction
 	
 
 	// Render loop
@@ -102,6 +100,12 @@ int App::run() {
 		//// model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));		// scale it so that it fits the window size.
 		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 		//shader.setMat4("model", model);
+
+		// Update model positions
+		blimp_1.update(deltaTime);
+		blimp_2.update(deltaTime);
+
+		// Draw all models
 		carModel.Draw(shader);
 		roadModel.Draw(shader);
 		blimp_1.Draw(shader);

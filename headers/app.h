@@ -12,6 +12,7 @@
 #include <shader.h>
 #include <camera.h>
 #include <model.h>
+#include <blimp.h>
 
 #include <iostream>
 
