@@ -53,7 +53,6 @@ int App::run() {
 
 	// Load models
 	Model carModel("resources/objects/car/sportcar.017.obj");
-	// Model roadModel("resources/objects/road/Untitled.obj");
 	Model roadModel("resources/objects/road/scene4.obj");
 	Blimp blimp_1("resources/objects/blimp_1/Aircraft.obj");
 	Blimp blimp_2("resources/objects/blimp_1/Aircraft.obj");
@@ -61,11 +60,28 @@ int App::run() {
 	// Set initial position
 	carModel.scale = vec3(0.05f, 0.05f, 0.05f);
 	carModel.position = vec3(1.0f, 0.3f, 0.0f);
-
 	roadModel.position = vec3(-9.0f, 0.0f, -9.0f); // Manually move the object origin to world origin (object origin is offset)
-
 	blimp_2.angle = pi<float>();	// Make blimp_2 face the opposite direction
-	
+
+	// Update model positions
+	blimp_1.update(deltaTime);
+	blimp_2.update(deltaTime);
+
+	// Set light properties
+	SpotLight blimpLight_1 = {
+		blimp_1.position,
+		vec3(0.0f, -1.0f, 0.0f),	// light direction (downward)
+		12.5f,						// cutOff
+		17.5f,						// outerCutOff
+		vec3(0.01f),				// ambient
+		vec3(1.0f, 1.0f, 0.9f),		// diffuse
+		vec3(1.0f),					// specular
+		1.0f,						// constant
+		0.01,						// linear		0.09, 0.045, 
+		0.002f						// quadratic	0.032, 0.0075, 
+	};
+	SpotLight blimpLight_2 = blimpLight_1;		// Duplicate setting
+	blimpLight_2.position = blimp_2.position;
 
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
@@ -77,6 +93,14 @@ int App::run() {
 		// Input
 		processInput(window);
 
+		// Update model positions
+		blimp_1.update(deltaTime);
+		blimp_2.update(deltaTime);
+
+		// Update spotlight positions from the blimps
+		blimpLight_1.position = blimp_1.position;
+		blimpLight_2.position = blimp_2.position;
+
 		// render
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -84,26 +108,17 @@ int App::run() {
 		// Enable the shader program
 		shader.use();
 
-		// Light
+		// Update shader
 		shader.setVec3("viewPos", camera.Position);
 		shader.setVec3("lightPos", vec3(1.2f, 1.0f, 2.0f));
+		setSpotLightUniforms(shader, blimpLight_1, 0);
+		setSpotLightUniforms(shader, blimpLight_2, 1);
 
 		// View/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		shader.setMat4("projection", projection);
 		shader.setMat4("view", view);
-
-		// render the loaded model
-		//glm::mat4 model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));	// translate it so it's at the center of the scene.
-		//// model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));		// scale it so that it fits the window size.
-		//model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-		//shader.setMat4("model", model);
-
-		// Update model positions
-		blimp_1.update(deltaTime);
-		blimp_2.update(deltaTime);
 
 		// Draw all models
 		carModel.Draw(shader);
@@ -139,6 +154,21 @@ void App::processInput(GLFWwindow* window) {
 		app->camera.ProcessKeyboard(LEFT, app->deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		app->camera.ProcessKeyboard(RIGHT, app->deltaTime);
+}
+
+void App::setSpotLightUniforms(const Shader& shader, const SpotLight& light, int index)
+{
+	string prefix = "spotLights[" + std::to_string(index) + "].";
+	shader.setVec3(prefix + "position", light.position);
+	shader.setVec3(prefix + "direction", light.direction);
+	shader.setFloat(prefix + "cutOff", cos(radians(light.cutOff)));
+	shader.setFloat(prefix + "outerCutOff", cos(radians(light.outerCutOff)));
+	shader.setVec3(prefix + "ambient", light.ambient);
+	shader.setVec3(prefix + "diffuse", light.diffuse);
+	shader.setVec3(prefix + "specular", light.specular);
+	shader.setFloat(prefix + "constant", light.constant);
+	shader.setFloat(prefix + "linear", light.linear);
+	shader.setFloat(prefix + "quadratic", light.quadratic);
 }
 
 // Process window resize

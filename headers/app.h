@@ -13,6 +13,7 @@
 #include <camera.h>
 #include <model.h>
 #include <blimp.h>
+#include <light.h>
 
 #include <iostream>
 
@@ -44,6 +45,7 @@ private:
 	static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	void processInput(GLFWwindow* window);
+	void setSpotLightUniforms(const Shader& shader, const SpotLight& light, int index);
 };
 
 
