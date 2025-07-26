@@ -53,7 +53,7 @@ int App::run() {
 
 	// Load models
 	Model carModel("resources/objects/car/sportcar.017.obj");
-	Model roadModel("resources/objects/road/scene4.obj");
+	Model roadModel("resources/objects/road/scene5.obj");
 	Blimp blimp_1("resources/objects/blimp_1/Aircraft.obj");
 	Blimp blimp_2("resources/objects/blimp_1/Aircraft.obj");
 
